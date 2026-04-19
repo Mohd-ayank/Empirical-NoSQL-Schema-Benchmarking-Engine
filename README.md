@@ -40,7 +40,7 @@ Benchmarking databases inside containerized environments often introduces virtua
 ## Visualizing the Results
 
 <p align="center">
-  <img src="main chunk_1150.png" alt="Empirical Insights" width="600"/>
+  <img src="chunk_visualization.png" alt="Empirical Insights" width="600"/>
 </p>
 
 ## 💻 How to Run the Simulation
