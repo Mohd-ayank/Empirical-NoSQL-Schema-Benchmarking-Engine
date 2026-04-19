@@ -39,8 +39,9 @@ Benchmarking databases inside containerized environments often introduces virtua
 
 ## Visualizing the Results
 
-*(Include your 6-panel Seaborn image here! Save it as `results.png` in your repo and uncomment the line below)*
-<!-- ![Results Dashboard](./results.png) -->
+<p align="center">
+  <img src="your-image.png" alt="Empirical Insights" width="600"/>
+</p>
 
 ## 💻 How to Run the Simulation
 
@@ -64,6 +65,33 @@ docker run -it --rm --add-host=host.docker.internal:host-gateway -v "$(pwd)":/ap
 
 ---
 
+
+## 🚀 Empirical Architectural Insights
+
+```
+[1] THE N+1 QUERY PROBLEM (Average Latency by Join Fan-Out)
+join_fan_out     1       10       50
+strategy                            
+Embed         16.90   17.22    16.59
+Hybrid        64.35  363.84  1556.46
+Reference     57.86  412.18  1933.03
+-> VERDICT: Embed scales at O(1) (flat). Reference scales at O(N) (linear growth).
+
+[2] UNAVAILABILITY & THE 16MB LIMIT
+-> The Embed strategy crashed 288 times.
+-> Justification: As Payload Size and Cardinality multiply, the BSON document breaches MongoDB's hard 16MB limit.
+-> Proof: Reference & Hybrid strategies survived because they normalize the unbounded lists into separate documents.
+
+[3] THE CPU MYTH BUSTED
+strategy
+Embed         3.527
+Hybrid       76.859
+Reference    95.850
+Name: cpu_ms, dtype: float64
+-> VERDICT: Parsing large JSON documents (Embed) uses LESS CPU than managing multiple TCP network cursors (Reference).
+```
+
+---
 ## Conclusion & Best Practices
 
 Default to Embedding for 1:Few relationships or read-heavy workloads where maximum performance is required.  
